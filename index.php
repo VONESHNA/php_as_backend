@@ -1,3 +1,63 @@
+<?php
+class Connection
+{
+	private $host = "localhost";
+	private $user = "root";
+	private $password = "";
+	private $database = "php_as_backend";
+	private $conn;
+	
+	function __construct() {
+		$this->conn = $this->connectDB();
+	}
+	
+	function connectDB() {
+		$conn = mysqli_connect($this->host,$this->user,$this->password,$this->database);
+		return $conn;
+	}
+    function runQuery($query) {
+		$result = mysqli_query($this->conn,$query);
+        return $result;
+    }
+	function runGetQuery($query) {
+		$result = mysqli_query($this->conn,$query);
+		while($row=mysqli_fetch_assoc($result)) {
+			$resultset[] = $row;
+		}		
+		if(!empty($resultset))
+			return $resultset;
+	}
+	
+	function numRows($query) {
+		$result  = mysqli_query($this->conn,$query);
+		$rowcount = mysqli_num_rows($result);
+		return $rowcount;	
+	}
+
+    function inBasicDetail($data){$d=$data;
+        $d[0];
+        $d[1];
+        $d[2];
+       // $d[3];
+        $q="INSERT INTO `basic_detail`( `name`, `mob`, `email`) VALUES ('value-1','value-2','value-3')";
+        $this->runQuery($q);
+    }
+    function upBasicDetail($data){ 
+                                $d=$data;  
+                                $d[0];
+                                $d[1];
+                                $d[2];
+                            // $d[3];
+                                $q="UPDATE `basic_detail` SET `name`='va',`mob`='val-3',`email`='val-4' WHERE `id`=1";
+                                $this->runQuery($q);
+                            }
+}
+$con = new Connection;
+$data=[1,2,3];
+//$con->inBasicDetail($data);
+$con->upBasicDetail($data);
+//print_r($con);
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,7 +84,7 @@
       <!-- ==== NAVBAR ==== -->
       <nav class="nav">
         <div class="logo">
-          <h2>Devkit.</h2>
+          <h2>Uikit.</h2>
         </div>
 
         <div class="nav_menu" id="nav_menu">
@@ -59,7 +119,7 @@
         <div class="grid-cols-2">
           <div class="grid-item-1">
             <h1 class="main-heading">
-              Welcome to <span>Devkit.</span>
+              Welcome to <span>Uikit.</span>
               <br />
               Develop anything.
             </h1>
@@ -165,6 +225,33 @@
       </div>
     </section>
 
+
+
+
+    <section class="wrapper">
+      <div class="container">
+        <div class="grid-cols-2">
+          <div class="grid-item-1">
+            <h1 class="main-heading">
+            Contact <span>Uikit.</span>
+            
+            </h1>
+            </br>
+            <input type="text" name="name" placeholder="Enter Name">
+            <input type="text" name="name" placeholder="Enter mobile no.">
+            <input type="text" name="email" placeholder="Enter Email">
+            <input type="text" name="city" placeholder="Enter City">
+            </br></br><button id="send" name="send">send</button>
+       
+          </div>
+          </div>
+         
+        </div>
+      </div>
+    </section>
+
+
+    
     <footer></footer>
 
     <!-- ==== ANIMATE ON SCROLL JS CDN -->
