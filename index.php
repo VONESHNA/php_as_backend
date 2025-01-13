@@ -34,29 +34,47 @@ class Connection
 		return $rowcount;	
 	}
 
-    function inBasicDetail($data){$d=$data;
-        $d[0];
-        $d[1];
-        $d[2];
-       // $d[3];
-        $q="INSERT INTO `basic_detail`( `name`, `mob`, `email`) VALUES ('value-1','value-2','value-3')";
-        $this->runQuery($q);
+    function inBasicDetail($data){  $d=$data;
+                                    $name=$d[0];
+                                    $email=$d[1];
+                                    $mob=$d[2];
+                                    $city=$d[3];
+                                    $q="INSERT INTO `basic_detail`( `name`, `email`, `mob`, `city`) VALUES ('".$name."','".$email."','".$mob."','".$city."')";
+                                    $this->runQuery($q);
     }
     function upBasicDetail($data){ 
                                 $d=$data;  
-                                $d[0];
-                                $d[1];
-                                $d[2];
-                            // $d[3];
-                                $q="UPDATE `basic_detail` SET `name`='va',`mob`='val-3',`email`='val-4' WHERE `id`=1";
+                                $name=$d[0];
+                                $email=$d[1];
+                                $mob=$d[2];
+                                $city=$d[3];
+                                $q="UPDATE `basic_detail` SET `name`='".$name."',`mob`='".$mob."',`email`='".$email."',`city`='".$city."'  WHERE `id`=1";
                                 $this->runQuery($q);
                             }
 }
 $con = new Connection;
 $data=[1,2,3];
 //$con->inBasicDetail($data);
-$con->upBasicDetail($data);
-//print_r($con);
+//$con->upBasicDetail($data);
+
+if(isset($_POST['send'])){$send=(int)trim($_POST['send']);if($send==1){
+                                                                $data=array();
+                                                                $name=addslashes(trim($_POST['name']));
+                                                                array_push($data,$name);
+                                                                $email=addslashes(trim($_POST['email']));
+                                                                array_push($data,$email);
+                                                                $mob=addslashes(trim($_POST['mob']));
+                                                                array_push($data,$mob);
+                                                                $city=addslashes(trim($_POST['city']));
+                                                                array_push($data,$city);
+                                                                $con->inBasicDetail($data);
+                                                                echo "<script>alert('Thank you for contacting')</script>";
+                                                                echo "<script>location='./'</script>";
+                                                                
+                                                    }
+    
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -237,12 +255,13 @@ $con->upBasicDetail($data);
             
             </h1>
             </br>
-            <input type="text" name="name" placeholder="Enter Name">
-            <input type="text" name="name" placeholder="Enter mobile no.">
-            <input type="text" name="email" placeholder="Enter Email">
-            <input type="text" name="city" placeholder="Enter City">
-            </br></br><button id="send" name="send">send</button>
-       
+            <form action="" method="post">
+            <input type="text" name="name" minlength="2" maxlength="20"  placeholder="Enter Name">
+            <input type="text" name="mob" pattern="[0-9]{10}" minlength="10" maxlength="10" placeholder="Enter mobile no.">
+            <input type="email" name="email" minlength="8" maxlength="20"  placeholder="Enter Email">
+            <input type="text" name="city" minlength="2" maxlength="20"  placeholder="Enter City">
+            </br></br><button type="submit" id="send" name="send" value="1">send</button>
+            </form>   
           </div>
           </div>
          
